@@ -1,0 +1,33 @@
+{
+  "02139": {
+    "bottle": "Place in curbside recycling (rinse and remove caps).",
+    "cup": "If compostable, put in compost; otherwise place in landfill/regular waste.",
+    "wine glass": "Glass recycling rules vary; check local drop-off — usually not curbside.",
+    "vase": "Glass/vase items may require special drop-off.",
+    "default": "Check your municipality's recycling guidance for specifics."
+  },
+  "94105": {
+    "bottle": "Curbside recycling — ensure containers are empty and dry.",
+    "cup": "Plastic cups may not be accepted; remove lids and check local rules.",
+    "vase": "Treat as glass — some programs require special drop-off.",
+    "default": "When in doubt, consult local recycling authority or website."
+  },
+  "10001": {
+    "bottle": "Empty and rinse; place in single-stream curbside recycling.",
+    "cup": "Disposable paper cups typically not accepted; check local guidelines.",
+    "wine glass": "Not accepted curbside; look for glass drop-off options.",
+    "default": "Visit local sanitation website for full list of accepted materials."
+  },
+  "60601": {
+    "bottle": "Accepted in curbside recycling if rinsed.",
+    "cup": "Polystyrene/foam cups are not accepted; paper cups vary.",
+    "vase": "Large glass pieces may need to be dropped off",
+    "default": "Separate cardboard and paper; flatten boxes for pickup."
+  },
+  "30301": {
+    "bottle": "Place in recycling bin after emptying.",
+    "cup": "Check for compostable markings; otherwise landfill.",
+    "vase": "Glass may require special handling; consult local rules.",
+    "default": "Many curbside programs accept mixed containers; confirm locally."
+  }
+}

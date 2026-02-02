@@ -1,0 +1,179 @@
+import io
+import json
+from pathlib import Path
+from PIL import Image
+import numpy as np
+import base64
+import streamlit as st
+from ultralytics import YOLO
+
+
+st.set_page_config(page_title="Recyclable Detector", layout="wide")
+st.title("Recyclable Item Detector")
+
+st.markdown("Upload a photo and the app will try to detect common recyclable items (e.g., bottles, cups).")
+
+uploaded = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
+zip_code = st.text_input("Enter ZIP code (5-digit) for local recycling rules", max_chars=5)
+show_company = st.checkbox("Show waste management company for ZIP")
+
+
+def load_rules():
+    rules_path = Path(__file__).parent / "recycling_rules.json"
+    if rules_path.exists():
+        try:
+            return json.loads(rules_path.read_text())
+        except Exception:
+            return {}
+    return {}
+
+rules_map = load_rules()
+
+# Admin: structured editor for the local recycling_rules.json
+admin = st.checkbox("Admin mode: edit recycling rules")
+if admin:
+    st.markdown("### Admin: Recycling rules editor")
+
+    # ZIP selection / creation
+    zips = sorted(list(rules_map.keys()))
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        zip_choice = st.selectbox("Select ZIP", options=["-- new ZIP --"] + zips, key="zip_select")
+        new_zip = st.text_input("New ZIP (5 digits)", max_chars=5, key="new_zip")
+        if st.button("Create ZIP"):
+            if new_zip and len(new_zip) == 5 and new_zip.isdigit():
+                if new_zip in rules_map:
+                    st.warning("ZIP already exists")
+                else:
+                    rules_map[new_zip] = {"default": "No specific instruction available."}
+                    st.success(f"Created {new_zip}")
+            else:
+                st.error("Enter a valid 5-digit ZIP code")
+
+    # Determine selected ZIP
+    selected_zip = None
+    if zip_choice and zip_choice != "-- new ZIP --":
+        selected_zip = zip_choice
+    elif new_zip and new_zip in rules_map:
+        selected_zip = new_zip
+
+    if selected_zip:
+        st.subheader(f"Rules for {selected_zip}")
+        local = rules_map.get(selected_zip, {})
+
+        # Allow editing the local waste service provider / company name
+        company_val = local.get("company", "")
+        company_val = st.text_input("Waste service provider (company name)", value=company_val, key=f"company_{selected_zip}")
+        if company_val:
+            local["company"] = company_val
+
+        # Display and edit existing rules
+        for item in list(local.keys()):
+            instr = st.text_input(f"Instruction for '{item}'", value=local[item], key=f"instr_{selected_zip}_{item}")
+            local[item] = instr
+            if st.button(f"Remove {item}", key=f"rm_{selected_zip}_{item}"):
+                local.pop(item, None)
+                st.experimental_rerun()
+
+        # Add or update an item
+        st.markdown("**Add or update item**")
+        new_item = st.text_input("Item name", key=f"new_item_{selected_zip}")
+        new_instr = st.text_input("Instruction", key=f"new_instr_{selected_zip}")
+        if st.button("Add/Update item", key=f"add_{selected_zip}"):
+            if new_item:
+                local[new_item] = new_instr or ""
+                st.success(f"Added/Updated '{new_item}'")
+            else:
+                st.error("Enter an item name")
+
+        # Save rules back to file
+        if st.button("Save rules to file"):
+            rules_path = Path(__file__).parent / "recycling_rules.json"
+            try:
+                rules_path.write_text(json.dumps(rules_map, indent=2))
+                st.success("Saved recycling_rules.json")
+            except Exception as e:
+                st.error(f"Failed to save: {e}")
+
+@st.cache_resource
+def load_model():
+    return YOLO("yolov8n.pt")
+
+RECYCLABLE_COCO = {
+    "bottle",
+    "cup",
+    "wine glass",
+    "vase",
+}
+
+if uploaded:
+    image_data = uploaded.read()
+    img = Image.open(io.BytesIO(image_data)).convert("RGB")
+    # Responsive image: render HTML img with max-width:100% so it scales to container
+    def _render_responsive_image(pil_img, caption=None):
+        buffered = io.BytesIO()
+        pil_img.save(buffered, format="PNG")
+        img_b64 = base64.b64encode(buffered.getvalue()).decode()
+        caption_html = f"<div style='text-align:center;margin:4px 0'>{caption}</div>" if caption else ""
+        html = f"{caption_html}<img src='data:image/png;base64,{img_b64}' style='max-width:100%;height:auto;' />"
+        st.markdown(html, unsafe_allow_html=True)
+
+    _render_responsive_image(img, caption="Uploaded image")
+
+    with st.spinner("Running detection..."):
+        model = load_model()
+        results = model(np.array(img), imgsz=640)
+
+    # results is a Results object list; take first
+    r = results[0]
+    annotated = r.plot()
+
+    # Extract detected class names and confidences
+    detected = []
+    if hasattr(r, "boxes") and r.boxes is not None and len(r.boxes) > 0:
+        for box in r.boxes:
+            # cls_idx = int(box.cls.cpu().numpy()) if hasattr(box, "cls") else None
+            cls_idx = int(box.cls.cpu().numpy()[0]) if hasattr(box, "cls") else None
+            conf = float(box.conf.cpu().numpy()[0]) if hasattr(box, "conf") else None
+            name = r.names[cls_idx] if cls_idx is not None else ""
+            detected.append((name, conf))
+
+    # Filter recyclable
+    recyclable_found = [d for d in detected if d[0] in RECYCLABLE_COCO]
+
+    st.header("Detection Results")
+    _render_responsive_image(Image.fromarray(annotated), caption="Detections")
+
+    if detected:
+        st.subheader("All detected objects")
+        for name, conf in detected:
+            st.write(f"- {name} — {conf:.2f}")
+    else:
+        st.write("No objects detected.")
+
+    st.subheader("Potential Recyclable Items")
+    if recyclable_found:
+        for name, conf in recyclable_found:
+            st.success(f"{name} — {conf:.2f}")
+
+        # Show local recycling instructions when ZIP code provided
+        if zip_code and zip_code in rules_map:
+            st.subheader("Local Recycling Instructions")
+            local_rules = rules_map.get(zip_code, {})
+            # Optionally show the waste management company/provider for this ZIP
+            if show_company:
+                provider = local_rules.get("company") or local_rules.get("service_provider") or local_rules.get("provider")
+                if provider:
+                    st.info(f"Waste service provider for {zip_code}: {provider}")
+                else:
+                    st.info("No waste service provider registered for this ZIP code.")
+            for name, conf in recyclable_found:
+                instr = local_rules.get(name, local_rules.get("default", "No specific instruction available."))
+                st.write(f"- {name}: {instr}")
+        elif zip_code:
+            st.info("No rules found for this ZIP code. Showing general guidance.")
+    else:
+        st.info("No common recyclable items detected using the default COCO classes.")
+
+    st.write("---")
+    st.write("Notes: This uses a general-purpose COCO-pretrained YOLOv8 model. For higher accuracy on specific recyclable categories (plastic types, cardboard, cans), custom training is recommended.")
