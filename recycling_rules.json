@@ -28,6 +28,47 @@
     "bottle": "Place in recycling bin after emptying.",
     "cup": "Check for compostable markings; otherwise landfill.",
     "vase": "Glass may require special handling; consult local rules.",
-    "default": "Many curbside programs accept mixed containers; confirm locally."
+    "default": "Many curbside programs accept mixed containers; confirm locally.",
+    "company": "Waste Management (City of Atlanta)"
+  },
+  "98101": {
+    "bottle": "Glass bottles accepted in curbside recycling; rinse and place loose in bin.",
+    "cup": "Compostable/paper cups go in compost cart; plastic cups in trash.",
+    "wine glass": "Broken glass should be wrapped; place in regular trash, not recycling.",
+    "vase": "Glass items accepted; ensure no sharp edges exposed.",
+    "default": "Seattle has separate compost, recycling, and trash carts.",
+    "company": "Waste Management & City of Seattle Environmental Services"
+  },
+  "90001": {
+    "bottle": "Plastic and glass bottles accepted; crush cans and bottles for space.",
+    "cup": "Disposable cups typically go to trash unless compostable certified.",
+    "wine glass": "Not recommended for curbside; use local glass drop-off.",
+    "vase": "Glass items may be accepted; call local waste provider to confirm.",
+    "default": "Los Angeles curbside accepts mixed recyclables.",
+    "company": "City of Los Angeles Sanitation Services"
+  },
+  "80202": {
+    "bottle": "Curbside recycling accepts plastic, glass, and aluminum bottles.",
+    "cup": "Paper and plastic cups not accepted; compost if available.",
+    "wine glass": "Glass items welcome if placed carefully in bin.",
+    "vase": "Acceptable; large glass pieces should be bundled safely.",
+    "default": "Denver accepts single-stream recycling with curbside pickup.",
+    "company": "Denver Solid Waste Management"
+  },
+  "33101": {
+    "bottle": "Plastic and glass bottles accepted; rinse thoroughly in hot climate.",
+    "cup": "Foam/polystyrene cups not accepted; paper cups to trash.",
+    "wine glass": "Check with local waste provider; some accept glass.",
+    "vase": "Glass items generally accepted; confirm locally first.",
+    "default": "Miami-Dade County provides curbside recycling bins.",
+    "company": "Miami-Dade Waste Management"
+  },
+  "97201": {
+    "bottle": "All beverage bottles accepted in Portland's commingled recycling.",
+    "cup": "Compostable cups go in food scrap bin; others to trash.",
+    "wine glass": "Regular glass in trash; beverage bottles in recycling only.",
+    "vase": "Glass items acceptable; wrap sharp edges for safety.",
+    "default": "Portland emphasizes composting and source reduction.",
+    "company": "City of Portland & Waste Management"
   }
 }
