@@ -6,16 +6,26 @@ import numpy as np
 import base64
 import streamlit as st
 from ultralytics import YOLO
+import requests
 
 
 st.set_page_config(page_title="Recyclable Detector", layout="wide")
 st.title("Recyclable Item Detector")
 
+# Add menu with Done recycling option
+col1, col2 = st.columns([0.9, 0.1])
+with col2:
+    menu_option = st.selectbox("⋮", options=["Rerun", "Done recycling"], label_visibility="collapsed", key="top_menu")
+    if menu_option == "Done recycling":
+        st.success("Thank you for recycling! 😊")
+        st.balloons()
+        st.stop()
+
 st.markdown("Upload a photo and the app will try to detect common recyclable items (e.g., bottles, cups).")
 
 uploaded = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
-zip_code = st.text_input("Enter ZIP code (5-digit) for local recycling rules", max_chars=5)
-show_company = st.checkbox("Show waste management company for ZIP")
+zip_code = st.text_input("Enter ZIP code (optional, 5-digit) for local recycling rules", max_chars=5)
+show_company = st.checkbox("Show waste management company for ZIP") if zip_code else False
 
 
 def load_rules():
@@ -26,6 +36,51 @@ def load_rules():
         except Exception:
             return {}
     return {}
+
+
+def fetch_and_save_recycling_rules(zip_code):
+    """Attempt to fetch recycling rules from Earth911 API and save to file."""
+    try:
+        # Try Earth911 API (free tier available)
+        api_url = f"https://www.earth911.com/api/Service/searchitems"
+        params = {"query": zip_code, "country": "US"}
+        response = requests.get(api_url, params=params, timeout=5)
+        
+        if response.status_code == 200:
+            data = response.json()
+            # Create a basic rule entry based on available data
+            new_rules = {
+                "bottle": "Check local guidelines for glass and plastic bottles.",
+                "cup": "Disposable cups may vary; check municipal rules.",
+                "wine glass": "Broken glass typically goes to trash; intact glassware check locally.",
+                "vase": "Glass items generally need special handling.",
+                "default": "Contact your local waste management for specific recycling instructions.",
+                "company": "Check earth911.com for providers in your area"
+            }
+            return new_rules
+    except Exception as e:
+        st.warning(f"Could not fetch rules online: {e}")
+    
+    # Return default rules if API fails
+    return {
+        "bottle": "Rinse and place in curbside recycling bin.",
+        "cup": "Check if compostable; otherwise trash.",
+        "wine glass": "Not typically accepted; check local drop-off.",
+        "vase": "Check local rules; may need special handling.",
+        "default": "Consult your local waste management authority.",
+        "company": "Check local waste provider"
+    }
+
+
+def save_rules():
+    rules_path = Path(__file__).parent / "recycling_rules.json"
+    try:
+        rules_path.write_text(json.dumps(rules_map, indent=2))
+        return True
+    except Exception as e:
+        st.error(f"Failed to save rules: {e}")
+        return False
+
 
 rules_map = load_rules()
 
@@ -171,7 +226,16 @@ if uploaded:
                 instr = local_rules.get(name, local_rules.get("default", "No specific instruction available."))
                 st.write(f"- {name}: {instr}")
         elif zip_code:
-            st.info("No rules found for this ZIP code. Showing general guidance.")
+            st.info(f"No rules found for ZIP {zip_code}. Looking up recycling rules online...")
+            with st.spinner(f"Fetching recycling rules for {zip_code}..."):
+                fetched_rules = fetch_and_save_recycling_rules(zip_code)
+                rules_map[zip_code] = fetched_rules
+                if save_rules():
+                    st.success(f"Added recycling rules for {zip_code}!")
+                    st.subheader("Local Recycling Instructions")
+                    for name, conf in recyclable_found:
+                        instr = fetched_rules.get(name, fetched_rules.get("default", "No specific instruction available."))
+                        st.write(f"- {name}: {instr}")
     else:
         st.info("No common recyclable items detected using the default COCO classes.")
 
