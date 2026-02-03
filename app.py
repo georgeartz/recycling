@@ -13,7 +13,7 @@ st.set_page_config(page_title="Recyclable Detector", layout="wide")
 st.title("Recyclable Item Detector")
 
 # Add menu with Done recycling option
-col1, col2 = st.columns([0.9, 0.1])
+col1, col2 = st.columns([0.85, 0.15])
 with col2:
     menu_option = st.selectbox("⋮", options=["Rerun", "Done recycling"], label_visibility="collapsed", key="top_menu")
     if menu_option == "Done recycling":
@@ -25,7 +25,6 @@ st.markdown("Upload a photo and the app will try to detect common recyclable ite
 
 uploaded = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
 zip_code = st.text_input("Enter ZIP code (optional, 5-digit) for local recycling rules", max_chars=5)
-show_company = st.checkbox("Show waste management company for ZIP") if zip_code else False
 
 
 def load_rules():
@@ -164,14 +163,12 @@ RECYCLABLE_COCO = {
 if uploaded:
     image_data = uploaded.read()
     img = Image.open(io.BytesIO(image_data)).convert("RGB")
-    # Responsive image: render HTML img with max-width:100% so it scales to container
+    
+    # Display images at half size
     def _render_responsive_image(pil_img, caption=None):
-        buffered = io.BytesIO()
-        pil_img.save(buffered, format="PNG")
-        img_b64 = base64.b64encode(buffered.getvalue()).decode()
-        caption_html = f"<div style='text-align:center;margin:4px 0'>{caption}</div>" if caption else ""
-        html = f"{caption_html}<img src='data:image/png;base64,{img_b64}' style='max-width:100%;height:auto;' />"
-        st.markdown(html, unsafe_allow_html=True)
+        if caption:
+            st.markdown(f"**{caption}**")
+        st.image(pil_img, width=400)
 
     _render_responsive_image(img, caption="Uploaded image")
 
@@ -215,13 +212,12 @@ if uploaded:
         if zip_code and zip_code in rules_map:
             st.subheader("Local Recycling Instructions")
             local_rules = rules_map.get(zip_code, {})
-            # Optionally show the waste management company/provider for this ZIP
-            if show_company:
-                provider = local_rules.get("company") or local_rules.get("service_provider") or local_rules.get("provider")
-                if provider:
-                    st.info(f"Waste service provider for {zip_code}: {provider}")
-                else:
-                    st.info("No waste service provider registered for this ZIP code.")
+            # Always show the waste management company/provider for this ZIP
+            provider = local_rules.get("company") or local_rules.get("service_provider") or local_rules.get("provider")
+            if provider:
+                st.info(f"Waste service provider for {zip_code}: {provider}")
+            else:
+                st.info("No waste service provider registered for this ZIP code.")
             for name, conf in recyclable_found:
                 instr = local_rules.get(name, local_rules.get("default", "No specific instruction available."))
                 st.write(f"- {name}: {instr}")

@@ -134,5 +134,13 @@
     "vase": "Check local rules; may need special handling.",
     "default": "Consult your local waste management authority.",
     "company": "Check local waste provider"
+  },
+  "303": {
+    "bottle": "Rinse and place in curbside recycling bin.",
+    "cup": "Check if compostable; otherwise trash.",
+    "wine glass": "Not typically accepted; check local drop-off.",
+    "vase": "Check local rules; may need special handling.",
+    "default": "Consult your local waste management authority.",
+    "company": "Check local waste provider"
   }
 }
