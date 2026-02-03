@@ -15,7 +15,7 @@ st.title("Recyclable Item Detector")
 # Add menu with Done recycling option
 col1, col2 = st.columns([0.85, 0.15])
 with col2:
-    menu_option = st.selectbox("⋮", options=["Done recycling", "Rerun"], index=1, label_visibility="collapsed", key="top_menu")
+    menu_option = st.selectbox("⋮", options=["Rerun","Done recycling"], index=0, label_visibility="collapsed", key="top_menu")
     if menu_option == "Done recycling":
         st.success("Thank you for recycling! 😊")
         st.balloons()
