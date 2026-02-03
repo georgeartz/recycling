@@ -15,7 +15,7 @@ st.title("Recyclable Item Detector")
 # Add menu with Done recycling option
 col1, col2 = st.columns([0.85, 0.15])
 with col2:
-    menu_option = st.selectbox("⋮", options=["Rerun", "Done recycling"], label_visibility="collapsed", key="top_menu")
+    menu_option = st.selectbox("⋮", options=["Done recycling", "Rerun"], index=1, label_visibility="collapsed", key="top_menu")
     if menu_option == "Done recycling":
         st.success("Thank you for recycling! 😊")
         st.balloons()
@@ -218,6 +218,31 @@ if uploaded:
                 st.info(f"Waste service provider for {zip_code}: {provider}")
             else:
                 st.info("No waste service provider registered for this ZIP code.")
+
+            # Option to show all rules for this ZIP (company first)
+            show_all_key = f"show_all_rules_{zip_code}"
+            if st.checkbox("Show all recycling rules for this ZIP", key=show_all_key):
+                st.subheader(f"All rules for {zip_code}")
+                if local_rules:
+                    # Show company/provider first if present
+                    provider_key = None
+                    provider = local_rules.get("company") or local_rules.get("service_provider") or local_rules.get("provider")
+                    if provider:
+                        st.info(f"Waste service provider: {provider}")
+                        # remember which key(s) represented provider to avoid duplicate listing
+                        for pk in ("company", "service_provider", "provider"):
+                            if pk in local_rules:
+                                provider_key = pk
+                                break
+
+                    # Then list other rules (skip the provider key)
+                    for k, v in local_rules.items():
+                        if k == provider_key:
+                            continue
+                        st.write(f"- {k}: {v}")
+                else:
+                    st.write("No rules available for this ZIP code.")
+
             for name, conf in recyclable_found:
                 instr = local_rules.get(name, local_rules.get("default", "No specific instruction available."))
                 st.write(f"- {name}: {instr}")
