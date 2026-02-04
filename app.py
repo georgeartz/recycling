@@ -9,7 +9,7 @@ from ultralytics import YOLO
 import requests
 
 
-st.set_page_config(page_title="Recyclable Detector", layout="wide")
+st.set_page_config(page_title="Recyclable Detector", page_icon="recycle_logo.png", layout="wide")
 st.title("Recyclable Item Detector")
 
 # Add menu with Done recycling option
