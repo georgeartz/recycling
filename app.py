@@ -10,6 +10,9 @@ import requests
 
 
 st.set_page_config(page_title="Recyclable Detector", page_icon="recycle_logo.png", layout="wide")
+
+# Logo above title in upper left
+st.image("recycle_logo.png", width=40, use_container_width=False)
 st.title("Recyclable Item Detector")
 
 # Add menu with Done recycling option
