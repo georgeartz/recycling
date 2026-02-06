@@ -1,146 +1,206 @@
 {
-  "02139": {
-    "bottle": "Place in curbside recycling (rinse and remove caps).",
-    "cup": "If compostable, put in compost; otherwise place in landfill/regular waste.",
-    "wine glass": "Glass recycling rules vary; check local drop-off \u2014 usually not curbside.",
-    "vase": "Glass/vase items may require special drop-off.",
-    "default": "Check your municipality's recycling guidance for specifics."
+  "zips": {
+    "02139": {
+      "bottle": "Place in curbside recycling (rinse and remove caps).",
+      "cup": "If compostable, put in compost; otherwise place in landfill/regular waste.",
+      "wine glass": "Glass recycling rules vary; check local drop-off — usually not curbside.",
+      "vase": "Glass/vase items may require special drop-off.",
+      "default": "Check your municipality's recycling guidance for specifics.",
+      "company": "Cambridge Department of Public Works"
+    },
+    "94105": {
+      "bottle": "Curbside recycling — ensure containers are empty and dry.",
+      "cup": "Plastic cups may not be accepted; remove lids and check local rules.",
+      "vase": "Treat as glass — some programs require special drop-off.",
+      "default": "When in doubt, consult local recycling authority or website.",
+      "company": "Recology San Francisco"
+    },
+    "10001": {
+      "bottle": "Empty and rinse; place in single-stream curbside recycling.",
+      "cup": "Disposable paper cups typically not accepted; check local guidelines.",
+      "wine glass": "Not accepted curbside; look for glass drop-off options.",
+      "default": "Visit local sanitation website for full list of accepted materials.",
+      "company": "NYC Department of Sanitation"
+    },
+    "60601": {
+      "bottle": "Accepted in curbside recycling if rinsed.",
+      "cup": "Polystyrene/foam cups are not accepted; paper cups vary.",
+      "vase": "Large glass pieces may need to be dropped off",
+      "default": "Separate cardboard and paper; flatten boxes for pickup.",
+      "company": "City of Chicago Department of Streets and Sanitation"
+    },
+    "30301": {
+      "bottle": "Place in recycling bin after emptying.",
+      "cup": "Check for compostable markings; otherwise landfill.",
+      "vase": "Glass may require special handling; consult local rules.",
+      "default": "Many curbside programs accept mixed containers; confirm locally.",
+      "company": "Waste Management (City of Atlanta)"
+    },
+    "98101": {
+      "bottle": "Glass bottles accepted in curbside recycling; rinse and place loose in bin.",
+      "cup": "Compostable/paper cups go in compost cart; plastic cups in trash.",
+      "wine glass": "Broken glass should be wrapped; place in regular trash, not recycling.",
+      "vase": "Glass items accepted; ensure no sharp edges exposed.",
+      "default": "Seattle has separate compost, recycling, and trash carts.",
+      "company": "Waste Management & City of Seattle Environmental Services"
+    },
+    "90001": {
+      "bottle": "Plastic and glass bottles accepted; crush cans and bottles for space.",
+      "cup": "Disposable cups typically go to trash unless compostable certified.",
+      "wine glass": "Not recommended for curbside; use local glass drop-off.",
+      "vase": "Glass items may be accepted; call local waste provider to confirm.",
+      "default": "Los Angeles curbside accepts mixed recyclables.",
+      "company": "City of Los Angeles Sanitation Services"
+    },
+    "80202": {
+      "bottle": "Curbside recycling accepts plastic, glass, and aluminum bottles.",
+      "cup": "Paper and plastic cups not accepted; compost if available.",
+      "wine glass": "Glass items welcome if placed carefully in bin.",
+      "vase": "Acceptable; large glass pieces should be bundled safely.",
+      "default": "Denver accepts single-stream recycling with curbside pickup.",
+      "company": "Denver Solid Waste Management"
+    },
+    "33101": {
+      "bottle": "Plastic and glass bottles accepted; rinse thoroughly in hot climate.",
+      "cup": "Foam/polystyrene cups not accepted; paper cups to trash.",
+      "wine glass": "Check with local waste provider; some accept glass.",
+      "vase": "Glass items generally accepted; confirm locally first.",
+      "default": "Miami-Dade County provides curbside recycling bins.",
+      "company": "Miami-Dade Waste Management"
+    },
+    "97201": {
+      "bottle": "All beverage bottles accepted in Portland's commingled recycling.",
+      "cup": "Compostable cups go in food scrap bin; others to trash.",
+      "wine glass": "Regular glass in trash; beverage bottles in recycling only.",
+      "vase": "Glass items acceptable; wrap sharp edges for safety.",
+      "default": "Portland emphasizes composting and source reduction.",
+      "company": "City of Portland & Waste Management"
+    },
+    "75201": {
+      "bottle": "Accepted in curbside recycling after rinsing.",
+      "cup": "Disposable cups not accepted; compost or trash.",
+      "wine glass": "Not accepted curbside; use hazardous waste drop-off.",
+      "vase": "Glass items not typically accepted; check with provider.",
+      "default": "Dallas offers single-stream recycling and yard waste collection.",
+      "company": "City of Dallas Sanitation Services"
+    },
+    "77001": {
+      "bottle": "Glass and plastic bottles accepted; empty and rinse.",
+      "cup": "Paper and plastic cups to trash; use composting if available.",
+      "wine glass": "Broken glass should be placed in trash, not recycling.",
+      "vase": "Glass items generally accepted if intact.",
+      "default": "Houston uses curbside recycling with mixed materials.",
+      "company": "City of Houston Solid Waste Management Department"
+    },
+    "85001": {
+      "bottle": "Curbside recycling accepts plastic and glass bottles.",
+      "cup": "Disposable cups not accepted; landfill only.",
+      "wine glass": "Not accepted in regular recycling; hazardous waste option.",
+      "vase": "Check local rules; generally not accepted.",
+      "default": "Phoenix emphasizes waste reduction; some programs available.",
+      "company": "City of Phoenix Solid Waste Department"
+    },
+    "19101": {
+      "bottle": "All beverage bottles accepted in curbside recycling.",
+      "cup": "Plastic cups not accepted; paper to composting if available.",
+      "wine glass": "Not accepted; use glass drop-off sites.",
+      "vase": "Glass items not recommended for curbside.",
+      "default": "Philadelphia operates single-stream curbside recycling.",
+      "company": "City of Philadelphia Streets Department"
+    },
+    "78201": {
+      "bottle": "Plastic, glass, and aluminum bottles accepted curbside.",
+      "cup": "Disposable cups not typically accepted.",
+      "wine glass": "Not accepted; contact local glass recycler.",
+      "vase": "Glass items not accepted; special drop-off may exist.",
+      "default": "San Antonio provides residential curbside recycling.",
+      "company": "City of San Antonio Solid Waste Department"
+    },
+    "92101": {
+      "bottle": "Curbside recycling accepts plastic, glass, and aluminum.",
+      "cup": "Plastic and paper cups not accepted; compost if available.",
+      "wine glass": "Not accepted in regular bins; special glass drop-off.",
+      "vase": "Generally not accepted; check with provider.",
+      "default": "San Diego emphasizes waste reduction and composting.",
+      "company": "City of San Diego Environmental Services Department"
+    }
   },
-  "94105": {
-    "bottle": "Curbside recycling \u2014 ensure containers are empty and dry.",
-    "cup": "Plastic cups may not be accepted; remove lids and check local rules.",
-    "vase": "Treat as glass \u2014 some programs require special drop-off.",
-    "default": "When in doubt, consult local recycling authority or website."
+  "cities": {
+    "San Francisco, CA": {
+      "bottle": "Curbside recycling — ensure containers are empty and dry.",
+      "cup": "Compostable cups in green bin; others in trash.",
+      "wine glass": "Not accepted curbside; check Recology drop-off locations.",
+      "vase": "Glass items require special handling; contact Recology.",
+      "default": "SF has blue (recycling), green (compost), and black (landfill) bins.",
+      "company": "Recology San Francisco"
+    },
+    "Los Angeles, CA": {
+      "bottle": "Plastic and glass bottles accepted; crush for space.",
+      "cup": "Disposable cups typically go to trash unless compostable certified.",
+      "wine glass": "Not recommended for curbside; use local glass drop-off.",
+      "vase": "Glass items may be accepted; call local waste provider to confirm.",
+      "default": "LA accepts mixed recyclables in blue bins.",
+      "company": "City of Los Angeles Sanitation Services"
+    },
+    "Seattle, WA": {
+      "bottle": "Glass bottles accepted in curbside recycling; rinse and place loose.",
+      "cup": "Compostable/paper cups go in compost cart; plastic cups in trash.",
+      "wine glass": "Broken glass should be wrapped; place in trash, not recycling.",
+      "vase": "Glass items accepted; ensure no sharp edges exposed.",
+      "default": "Seattle has separate compost, recycling, and trash carts.",
+      "company": "Waste Management & Seattle Public Utilities"
+    },
+    "New York, NY": {
+      "bottle": "Empty and rinse; place in single-stream curbside recycling.",
+      "cup": "Disposable paper cups typically not accepted; check local guidelines.",
+      "wine glass": "Not accepted curbside; look for glass drop-off options.",
+      "default": "Visit nyc.gov/sanitation for full list of accepted materials.",
+      "company": "NYC Department of Sanitation"
+    },
+    "Chicago, IL": {
+      "bottle": "Accepted in curbside recycling if rinsed.",
+      "cup": "Polystyrene/foam cups not accepted; paper cups vary.",
+      "vase": "Large glass pieces may need special drop-off.",
+      "default": "Separate cardboard and paper; flatten boxes for pickup.",
+      "company": "City of Chicago Department of Streets and Sanitation"
+    }
   },
-  "10001": {
-    "bottle": "Empty and rinse; place in single-stream curbside recycling.",
-    "cup": "Disposable paper cups typically not accepted; check local guidelines.",
-    "wine glass": "Not accepted curbside; look for glass drop-off options.",
-    "default": "Visit local sanitation website for full list of accepted materials."
+  "states": {
+    "CA": {
+      "bottle": "CRV bottles can be returned to buyback centers for refund. Most accepted curbside.",
+      "cup": "Varies by municipality; check local guidelines.",
+      "wine glass": "Generally not accepted curbside; check local drop-off centers.",
+      "default": "Visit CalRecycle.ca.gov for state recycling information.",
+      "company": "CalRecycle (state agency) — check local provider"
+    },
+    "WA": {
+      "bottle": "Most bottles accepted in curbside recycling programs.",
+      "cup": "Compostable cups accepted where organics collection exists.",
+      "wine glass": "Check local recycling guidelines; usually not curbside.",
+      "default": "Visit ecology.wa.gov for state recycling resources.",
+      "company": "WA Dept of Ecology — check local provider"
+    },
+    "NY": {
+      "bottle": "Empty and rinse; most municipalities accept plastic and glass bottles.",
+      "cup": "Varies by locality; NYC does not accept most paper cups.",
+      "wine glass": "Generally not accepted; check local drop-off programs.",
+      "default": "Visit dec.ny.gov for NY state recycling information.",
+      "company": "NY DEC — check local sanitation department"
+    },
+    "TX": {
+      "bottle": "Most cities accept plastic and glass bottles in curbside recycling.",
+      "cup": "Generally not accepted; check local waste provider.",
+      "wine glass": "Typically not accepted curbside; use special drop-off if available.",
+      "default": "Recycling programs vary widely by city in Texas.",
+      "company": "Check local municipal waste services"
+    }
   },
-  "60601": {
-    "bottle": "Accepted in curbside recycling if rinsed.",
-    "cup": "Polystyrene/foam cups are not accepted; paper cups vary.",
-    "vase": "Large glass pieces may need to be dropped off",
-    "default": "Separate cardboard and paper; flatten boxes for pickup."
-  },
-  "30301": {
-    "bottle": "Place in recycling bin after emptying.",
-    "cup": "Check for compostable markings; otherwise landfill.",
-    "vase": "Glass may require special handling; consult local rules.",
-    "default": "Many curbside programs accept mixed containers; confirm locally.",
-    "company": "Waste Management (City of Atlanta)"
-  },
-  "98101": {
-    "bottle": "Glass bottles accepted in curbside recycling; rinse and place loose in bin.",
-    "cup": "Compostable/paper cups go in compost cart; plastic cups in trash.",
-    "wine glass": "Broken glass should be wrapped; place in regular trash, not recycling.",
-    "vase": "Glass items accepted; ensure no sharp edges exposed.",
-    "default": "Seattle has separate compost, recycling, and trash carts.",
-    "company": "Waste Management & City of Seattle Environmental Services"
-  },
-  "90001": {
-    "bottle": "Plastic and glass bottles accepted; crush cans and bottles for space.",
-    "cup": "Disposable cups typically go to trash unless compostable certified.",
-    "wine glass": "Not recommended for curbside; use local glass drop-off.",
-    "vase": "Glass items may be accepted; call local waste provider to confirm.",
-    "default": "Los Angeles curbside accepts mixed recyclables.",
-    "company": "City of Los Angeles Sanitation Services"
-  },
-  "80202": {
-    "bottle": "Curbside recycling accepts plastic, glass, and aluminum bottles.",
-    "cup": "Paper and plastic cups not accepted; compost if available.",
-    "wine glass": "Glass items welcome if placed carefully in bin.",
-    "vase": "Acceptable; large glass pieces should be bundled safely.",
-    "default": "Denver accepts single-stream recycling with curbside pickup.",
-    "company": "Denver Solid Waste Management"
-  },
-  "33101": {
-    "bottle": "Plastic and glass bottles accepted; rinse thoroughly in hot climate.",
-    "cup": "Foam/polystyrene cups not accepted; paper cups to trash.",
-    "wine glass": "Check with local waste provider; some accept glass.",
-    "vase": "Glass items generally accepted; confirm locally first.",
-    "default": "Miami-Dade County provides curbside recycling bins.",
-    "company": "Miami-Dade Waste Management"
-  },
-  "97201": {
-    "bottle": "All beverage bottles accepted in Portland's commingled recycling.",
-    "cup": "Compostable cups go in food scrap bin; others to trash.",
-    "wine glass": "Regular glass in trash; beverage bottles in recycling only.",
-    "vase": "Glass items acceptable; wrap sharp edges for safety.",
-    "default": "Portland emphasizes composting and source reduction.",
-    "company": "City of Portland & Waste Management"
-  },
-  "75201": {
-    "bottle": "Accepted in curbside recycling after rinsing.",
-    "cup": "Disposable cups not accepted; compost or trash.",
-    "wine glass": "Not accepted curbside; use hazardous waste drop-off.",
-    "vase": "Glass items not typically accepted; check with provider.",
-    "default": "Dallas offers single-stream recycling and yard waste collection.",
-    "company": "City of Dallas Sanitation Services"
-  },
-  "77001": {
-    "bottle": "Glass and plastic bottles accepted; empty and rinse.",
-    "cup": "Paper and plastic cups to trash; use composting if available.",
-    "wine glass": "Broken glass should be placed in trash, not recycling.",
-    "vase": "Glass items generally accepted if intact.",
-    "default": "Houston uses curbside recycling with mixed materials.",
-    "company": "City of Houston Solid Waste Management Department"
-  },
-  "85001": {
-    "bottle": "Curbside recycling accepts plastic and glass bottles.",
-    "cup": "Disposable cups not accepted; landfill only.",
-    "wine glass": "Not accepted in regular recycling; hazardous waste option.",
-    "vase": "Check local rules; generally not accepted.",
-    "default": "Phoenix emphasizes waste reduction; some programs available.",
-    "company": "City of Phoenix Solid Waste Department"
-  },
-  "19101": {
-    "bottle": "All beverage bottles accepted in curbside recycling.",
-    "cup": "Plastic cups not accepted; paper to composting if available.",
-    "wine glass": "Not accepted; use glass drop-off sites.",
-    "vase": "Glass items not recommended for curbside.",
-    "default": "Philadelphia operates single-stream curbside recycling.",
-    "company": "City of Philadelphia Streets Department"
-  },
-  "78201": {
-    "bottle": "Plastic, glass, and aluminum bottles accepted curbside.",
-    "cup": "Disposable cups not typically accepted.",
-    "wine glass": "Not accepted; contact local glass recycler.",
-    "vase": "Glass items not accepted; special drop-off may exist.",
-    "default": "San Antonio provides residential curbside recycling.",
-    "company": "City of San Antonio Solid Waste Department"
-  },
-  "92101": {
-    "bottle": "Curbside recycling accepts plastic, glass, and aluminum.",
-    "cup": "Plastic and paper cups not accepted; compost if available.",
-    "wine glass": "Not accepted in regular bins; special glass drop-off.",
-    "vase": "Generally not accepted; check with provider.",
-    "default": "San Diego emphasizes waste reduction and composting.",
-    "company": "City of San Diego Environmental Services Department"
-  },
-  "94024": {
-    "bottle": "Rinse and place in curbside recycling bin.",
-    "cup": "Check if compostable; otherwise trash.",
-    "wine glass": "Not typically accepted; check local drop-off.",
-    "vase": "Check local rules; may need special handling.",
-    "default": "Consult your local waste management authority.",
-    "company": "Check local waste provider"
-  },
-  "95825": {
-    "bottle": "Rinse and place in curbside recycling bin.",
-    "cup": "Check if compostable; otherwise trash.",
-    "wine glass": "Not typically accepted; check local drop-off.",
-    "vase": "Check local rules; may need special handling.",
-    "default": "Consult your local waste management authority.",
-    "company": "Check local waste provider"
-  },
-  "303": {
-    "bottle": "Rinse and place in curbside recycling bin.",
-    "cup": "Check if compostable; otherwise trash.",
-    "wine glass": "Not typically accepted; check local drop-off.",
-    "vase": "Check local rules; may need special handling.",
-    "default": "Consult your local waste management authority.",
-    "company": "Check local waste provider"
+  "national_default": {
+    "bottle": "Rinse and place in curbside recycling if available in your area.",
+    "cup": "Check if compostable; most disposable cups go to trash.",
+    "wine glass": "Not typically accepted in curbside recycling; check local drop-off centers.",
+    "vase": "Glass items may require special handling; contact local waste authority.",
+    "default": "Contact your local waste management authority for specific recycling instructions.",
+    "company": "Visit earth911.com or call local waste management for provider information"
   }
 }

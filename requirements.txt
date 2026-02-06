@@ -4,3 +4,4 @@ opencv-python-headless
 Pillow
 numpy
 requests
+uszipcode<1.0.0
