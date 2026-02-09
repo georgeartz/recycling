@@ -2,7 +2,7 @@ import io
 import json
 import time
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 import numpy as np
 import base64
 import streamlit as st
@@ -177,6 +177,48 @@ def save_rules(rules_map: dict) -> bool:
 
 rules_map = load_rules()
 
+
+def _edit_rule_set(local: dict, key: str, rules_map: dict, scope: str):
+    """Helper function to edit a set of recycling rules."""
+    # Allow editing the waste service provider / company name
+    company_val = local.get("company", "")
+    company_val = st.text_input("Waste service provider (company name)", value=company_val, key=f"company_{key}")
+    if company_val:
+        local["company"] = company_val
+    
+    # Display and edit existing rules
+    for item in list(local.keys()):
+        instr = st.text_input(f"Instruction for '{item}'", value=local[item], key=f"instr_{key}_{item}")
+        local[item] = instr
+        if st.button(f"Remove {item}", key=f"rm_{key}_{item}"):
+            local.pop(item, None)
+            st.rerun()
+    
+    # Add or update an item
+    st.markdown("**Add or update item**")
+    new_item = st.text_input("Item name", key=f"new_item_{key}")
+    new_instr = st.text_input("Instruction", key=f"new_instr_{key}")
+    if st.button("Add/Update item", key=f"add_{key}"):
+        if new_item:
+            local[new_item] = new_instr or ""
+            st.success(f"Added/Updated '{new_item}'")
+        else:
+            st.error("Enter an item name")
+    
+    # Save rules back to file
+    if st.button("Save rules to file", key=f"save_{key}"):
+        # Update the rules_map with the edited local rules
+        if scope == "national_default":
+            rules_map["national_default"] = local
+        else:
+            if scope not in rules_map:
+                rules_map[scope] = {}
+            rules_map[scope][key] = local
+        
+        if save_rules(rules_map):
+            st.success("Saved recycling_rules.json")
+
+
 # Admin: structured editor for the local recycling_rules.json
 admin = st.checkbox("Admin mode: edit recycling rules")
 if admin:
@@ -273,46 +315,6 @@ if admin:
         _edit_rule_set(local, "national_default", rules_map, "national_default")
 
 
-def _edit_rule_set(local: dict, key: str, rules_map: dict, scope: str):
-    """Helper function to edit a set of recycling rules."""
-    # Allow editing the waste service provider / company name
-    company_val = local.get("company", "")
-    company_val = st.text_input("Waste service provider (company name)", value=company_val, key=f"company_{key}")
-    if company_val:
-        local["company"] = company_val
-    
-    # Display and edit existing rules
-    for item in list(local.keys()):
-        instr = st.text_input(f"Instruction for '{item}'", value=local[item], key=f"instr_{key}_{item}")
-        local[item] = instr
-        if st.button(f"Remove {item}", key=f"rm_{key}_{item}"):
-            local.pop(item, None)
-            st.rerun()
-    
-    # Add or update an item
-    st.markdown("**Add or update item**")
-    new_item = st.text_input("Item name", key=f"new_item_{key}")
-    new_instr = st.text_input("Instruction", key=f"new_instr_{key}")
-    if st.button("Add/Update item", key=f"add_{key}"):
-        if new_item:
-            local[new_item] = new_instr or ""
-            st.success(f"Added/Updated '{new_item}'")
-        else:
-            st.error("Enter an item name")
-    
-    # Save rules back to file
-    if st.button("Save rules to file", key=f"save_{key}"):
-        # Update the rules_map with the edited local rules
-        if scope == "national_default":
-            rules_map["national_default"] = local
-        else:
-            if scope not in rules_map:
-                rules_map[scope] = {}
-            rules_map[scope][key] = local
-        
-        if save_rules(rules_map):
-            st.success("Saved recycling_rules.json")
-
 @st.cache_resource
 def load_model():
     return YOLO("yolov8n.pt")
@@ -326,7 +328,16 @@ RECYCLABLE_COCO = {
 
 if uploaded:
     image_data = uploaded.read()
-    img = Image.open(io.BytesIO(image_data)).convert("RGB")
+    img = Image.open(io.BytesIO(image_data))
+    
+    # Fix image rotation based on EXIF orientation data
+    try:
+        from PIL import ImageOps
+        img = ImageOps.exif_transpose(img)
+    except Exception:
+        pass  # If EXIF data is not available or there's an error, continue with original
+    
+    img = img.convert("RGB")
     
     # Display images at half size
     def _render_responsive_image(pil_img, caption=None):
