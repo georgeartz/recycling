@@ -1,31 +1,13 @@
 {
   "zips": {
-    "94024": {
-      "company": "Mission Trail Waste Systems (Los Altos\u2019 residential solid waste and recycling hauler)",
-      "bottle": "Recycle in the blue cart if empty and clean/dry (plastic bottles and jars; glass bottles and jars). Put lids back on plastic bottles/jugs when possible; do not bag recyclables.",
-      "cup": "Most disposable cups go in the trash. Paper coffee cups are typically not recyclable due to plastic lining; plastic cups are only recyclable if they are rigid #1/#2 bottle/jug-type plastics\u2014otherwise trash. When in doubt, trash to avoid contamination.",
-      "wine glass": "Do NOT recycle. Wine glasses are made of different glass (often tempered/lead/crystal) and contaminate bottle/jar glass recycling; place in trash (or reuse/donate if intact).",
-      "vase": "Do NOT place in curbside recycling. Glass vases (non-container glass) are not accepted with bottles/jars; donate/reuse if possible or dispose in trash if broken/unusable.",
-      "default": "Use the blue cart for clean, dry recyclables (paper/cardboard, metal cans, and glass bottles/jars). Do not include bagged recyclables, food/greasy paper, ceramics, drinking glasses, mirrors/window glass, or other non-container glass. Keep items empty, clean, and loose to reduce contamination.",
-      "_fetched_at": 1770704715
-    },
-    "95825": {
-      "company": "Sacramento County (Unincorporated) \u2014 Solid Waste Division (franchise residential haulers: Republic Services and Waste Management; provider depends on your specific address in ZIP 95825)",
-      "bottle": "Recycle in the blue recycling cart if empty and dry (plastic bottles with caps on; glass bottles/jars accepted).",
-      "cup": "Do not recycle most disposable cups. Paper cups (coffee cups) and plastic cups are generally not accepted in curbside recycling; put in trash unless the cup is rigid plastic clearly labeled as a recyclable container and is empty/clean (when in doubt, trash).",
-      "wine glass": "Do not recycle in the blue cart (drinking glasses are different glass than bottles/jars). Put in trash; if unbroken and usable, donate instead.",
-      "vase": "Do not recycle in the blue cart (non-container glass). Put in trash; donate if reusable.",
-      "default": "Curbside recycling accepts empty, clean, dry paper/cardboard, metal cans, and glass bottles/jars plus rigid plastic bottles/jugs/tubs (no bagged recyclables). Keep contamination out (no food/liquids). Non-container glass (cups, dishes, Pyrex, ceramics, mirrors), foam, and most mixed-material items go in trash; consider reuse/donation for durable items.",
-      "_fetched_at": 1770704811
-    },
     "83333": {
-      "company": "Unknown (unable to verify current residential hauler for Hailey, ID 83333 without live lookup; commonly residents use the City of Hailey trash/recycling program or contracted local haulers such as Sun Valley Co. and/or Republic Services depending on address/service area)",
-      "bottle": "Generally accepted in curbside recycling if empty and rinsed: plastic bottles/jugs/tubs (check for #1\u2013#2; caps usually OK if screwed on) and glass bottles/jars (food/beverage only). Keep out if contaminated with food/liquid. If your local program excludes glass curbside, take glass bottles/jars to a designated drop-off.",
-      "cup": "Most disposable cups are NOT accepted curbside. Paper hot cups are typically lined and belong in trash. Plastic cups are usually not accepted unless your program explicitly accepts rigid plastics by shape/type; when in doubt, trash.",
-      "wine glass": "Not recyclable curbside. Put in trash (or reuse/donate if intact). Wine glasses are a different glass composition than bottles/jars and can contaminate glass recycling.",
-      "vase": "Not recyclable curbside. Put in trash (or donate/reuse if intact). Vases (decorative/tempered/lead or mixed glass) are not accepted with bottle/jar glass.",
-      "default": "Recycling rules vary by the specific hauler/program serving your address in Hailey (83333). Typical accepted curbside items: clean paper/cardboard and plastic bottles/jugs (often #1\u2013#2). Glass bottles/jars may be accepted or may require drop-off depending on the local program. Keep out: plastic bags/film, food-soiled paper, disposable cups, ceramics, Pyrex, drinking glasses, vases, and other non-container glass. When unsure, leave it out (trash) to avoid contamination.",
-      "_fetched_at": 1770705040
+      "company": "Sun Valley Refuse (BCRD franchise hauler for Hailey area)",
+      "bottle": "Recycle empty plastic bottles and glass bottles in the commingled recycling cart/bin (rinse/empty; leave caps on plastic when possible).",
+      "cup": "Generally DO NOT recycle disposable cups. Paper coffee cups are not accepted (plastic lining). Most plastic cups are not accepted unless they are a rigid bottle/jug; put in trash unless specifically labeled and locally accepted.",
+      "wine glass": "Do NOT recycle. Drinkware/tempered glass is not accepted in curbside recycling; dispose in trash (or donate if usable).",
+      "vase": "Do NOT recycle in curbside. Put in trash or donate if usable; only container glass bottles/jars are accepted.",
+      "default": "Hailey-area residential recycling is commingled (single-stream) and typically accepts clean paper/cardboard, metal cans, and container plastics and glass bottles/jars. Keep items empty/clean/dry, place loose (not bagged), and exclude plastic bags/film, food-soiled paper, Styrofoam, electronics, and non-container glass (windows, mirrors, Pyrex, ceramics, drinking glasses, vases).",
+      "_fetched_at": 1770706033
     }
   },
   "cities": {},
