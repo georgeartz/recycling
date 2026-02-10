@@ -143,7 +143,8 @@ def fetch_and_save_recycling_rules(zip_code: str, rules_map: dict) -> dict:
     print(f"[DEBUG] Location resolved: {location}")
     
     # Try using OpenAI if API key is set
-    api_key = os.environ.get("OPENAI_API_KEY")
+    # Check Streamlit secrets first, then fall back to environment variable
+    api_key = st.secrets.get("OPENAI_API_KEY") if "OPENAI_API_KEY" in st.secrets else os.environ.get("OPENAI_API_KEY")
     if api_key:
         client = None
         try:
