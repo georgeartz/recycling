@@ -1,15 +1,5 @@
 {
-  "zips": {
-    "94024": {
-      "company": "Mission Trail Waste Systems (served under the City of Los Altos / Zero Waste Los Altos program)",
-      "bottle": "Recycle in the blue cart: empty plastic bottles and glass bottles/jars (no liquids; caps generally OK if left on plastic bottles; remove non-bottle attachments like pumps).",
-      "cup": "Do NOT recycle most disposable cups: paper coffee cups and plastic/compostable-lined cups go in the trash unless they are certified-compostable and you have a compost/organics cart (then compost only if accepted by the local organics program). Clean rigid plastic cups may be recyclable only if accepted as rigid plastic containers; when in doubt, trash.",
-      "wine glass": "Do not put in recycling (different glass composition). Wrap to protect workers and place in trash.",
-      "vase": "Do not put in curbside recycling. Put in trash (wrap broken glass), or donate/reuse if in good condition.",
-      "default": "Los Altos curbside recycling (blue cart) is for clean mixed paper/cardboard and accepted containers (metal cans, plastic bottles/containers, and glass bottles/jars). Keep items empty and reasonably clean; bagged recyclables, food-soiled paper, ceramics/crystal/pyrex, and non-container glass (drinkware, vases) belong in the trash (or reuse/donate when possible).",
-      "_fetched_at": 1770709067
-    }
-  },
+  "zips": {},
   "cities": {},
   "states": {},
   "national_default": {}
