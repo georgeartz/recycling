@@ -1,5 +1,6 @@
 import io
 import json
+import os
 import time
 from pathlib import Path
 from PIL import Image, ImageOps
@@ -9,6 +10,7 @@ import streamlit as st
 from ultralytics import YOLO
 import requests
 from uszipcode import SearchEngine
+from openai import OpenAI
 
 # Initialize uszipcode search engine (cached for performance)
 @st.cache_resource
@@ -19,7 +21,7 @@ def get_zip_search_engine():
 st.set_page_config(page_title="Recyclable Detector", page_icon="recycle_logo.png", layout="wide")
 
 # Logo above title in upper left
-st.image("recycle_logo.png", width=40, use_container_width=False)
+st.image("recycle_logo.png", width=40)
 st.title("Recyclable Item Detector")
 
 # Add menu with Done recycling option
@@ -37,6 +39,7 @@ uploaded = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
 zip_code = st.text_input("Enter ZIP code (optional, 5-digit) for local recycling rules", max_chars=5)
 
 
+@st.cache_data
 def load_rules():
     """Load hierarchical recycling rules from JSON file."""
     rules_path = Path(__file__).parent / "recycling_rules.json"
@@ -84,47 +87,36 @@ def zip_to_location(zip_code: str) -> dict | None:
     return None
 
 
-def get_recycling_rules(zip_code: str, rules_map: dict) -> tuple[dict, str]:
+def get_recycling_rules(zip_code: str, rules_map: dict, auto_fetch: bool = True) -> tuple[dict, str, bool]:
     """
-    Get recycling rules using tiered resolution.
-    Returns (rules_dict, source_label) where source_label describes where rules came from.
+    Get recycling rules with automatic fetching if not in cache.
+    Returns (rules_dict, source_label, was_fetched) where:
+    - rules_dict: The recycling rules
+    - source_label: Description of where rules came from
+    - was_fetched: True if rules were newly fetched and should be saved
     
     Resolution order:
-    1. Exact ZIP match
-    2. City match (via uszipcode lookup)
-    3. State match (via uszipcode lookup)
-    4. 3-digit ZIP prefix (regional fallback)
-    5. National default
+    1. Check cache for exact ZIP match
+    2. If not in cache and auto_fetch=True:
+       a. Try OpenAI API
+       b. Fallback to Earth911 links if OpenAI fails
+       c. Use national default if all else fails
     """
-    # Tier 1: Exact ZIP
+    # Tier 1: Check cache for exact ZIP match
     zips = rules_map.get("zips", {})
     if zip_code in zips:
-        return zips[zip_code], f"ZIP {zip_code}"
+        return zips[zip_code], f"ZIP {zip_code} (cached)", False
     
-    # Tier 2 & 3: City/State via uszipcode
-    location = zip_to_location(zip_code)
-    if location:
-        # Try city match
-        city_key = f"{location['city']}, {location['state_abbr']}"
-        cities = rules_map.get("cities", {})
-        if city_key in cities:
-            return cities[city_key], city_key
-        
-        # Try state match
-        state_abbr = location["state_abbr"]
-        states = rules_map.get("states", {})
-        if state_abbr in states:
-            return states[state_abbr], f"{state_abbr} (state-level)"
+    # If not in cache and auto_fetch is enabled, try to fetch new rules
+    if auto_fetch:
+        print(f"[DEBUG] ZIP {zip_code} not in cache, attempting to fetch...")
+        fetched_rules = fetch_and_save_recycling_rules(zip_code, rules_map)
+        if fetched_rules:
+            return fetched_rules, f"ZIP {zip_code} (newly fetched)", True
     
-    # Tier 4: 3-digit prefix (SCF region)
-    if len(zip_code) >= 3:
-        prefix = zip_code[:3]
-        if prefix in zips:
-            return zips[prefix], f"region {prefix}xx"
-    
-    # Tier 5: National default
+    # Fallback to national default if fetching disabled or failed
     national = rules_map.get("national_default", {})
-    return national, "national default"
+    return national, "national default", False
 
 
 def generate_lookup_links(zip_code: str, location: dict | None) -> dict:
@@ -144,12 +136,67 @@ def generate_lookup_links(zip_code: str, location: dict | None) -> dict:
 
 def fetch_and_save_recycling_rules(zip_code: str, rules_map: dict) -> dict:
     """
-    Generate helpful recycling lookup information for a ZIP code.
-    Since we don't have a real API key, we generate useful links instead.
+    Fetch recycling rules using OpenAI if available, otherwise fallback to links.
     """
+    print(f"[DEBUG] fetch_and_save_recycling_rules called for ZIP: {zip_code}")
     location = zip_to_location(zip_code)
+    print(f"[DEBUG] Location resolved: {location}")
     
-    # Generate lookup links and info
+    # Try using OpenAI if API key is set
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if api_key:
+        client = None
+        try:
+            client = OpenAI(api_key=api_key)
+        except Exception as e:
+            st.error(f"Failed to initialize OpenAI client: {e}")
+
+        if client:
+            try:
+                city = location.get("city", "") if location else ""
+                state = location.get("state_abbr", "") if location else ""
+                loc_str = f"{city}, {state}" if city and state else f"ZIP {zip_code}"
+                
+                prompt = f"""
+                You are a waste management expert.
+                Find the recycling rules for {loc_str} (ZIP {zip_code}).
+                Identify the specific company that does residential garbage collection for this area.
+                
+                Provide a JSON object with these keys:
+                - "company": Name of the waste management provider.
+                - "bottle": Rule for plastic/glass bottles.
+                - "cup": Rule for disposable cups (paper/plastic).
+                - "wine glass": Rule for wine glasses.
+                - "vase": Rule for glass vases.
+                - "default": General recycling summary.
+                
+                Return ONLY raw JSON.
+                """
+                
+                response = client.chat.completions.create(
+                    model='gpt-5.2',
+                    messages=[
+                        {"role": "user", "content": prompt}
+                    ],
+                    response_format={"type": "json_object"}
+                )
+                text = response.choices[0].message.content.strip()
+                # Clean markdown formatting if present
+                if text.startswith("```json"):
+                    text = text[7:]
+                if text.startswith("```"):
+                    text = text[3:]
+                if text.endswith("```"):
+                    text = text[:-3]
+                    
+                data = json.loads(text)
+                data["_fetched_at"] = int(time.time())
+                return data
+                
+            except Exception as e:
+                st.warning(f"OpenAI lookup failed: {e}. Falling back to links.")
+
+    # Fallback: Generate lookup links and info
     new_rules = generate_lookup_links(zip_code, location)
     
     # Also provide some generic guidance based on location if available
@@ -223,6 +270,28 @@ def _edit_rule_set(local: dict, key: str, rules_map: dict, scope: str):
 admin = st.checkbox("Admin mode: edit recycling rules")
 if admin:
     st.markdown("### Admin: Recycling rules editor")
+    
+    # Cache and file management options
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🗑️ Clear in-memory cache"):
+            load_rules.clear()
+            st.success("In-memory cache cleared! Rules will be reloaded from file.")
+            st.rerun()
+    
+    with col2:
+        if st.button("🗑️ Clear all recycling rules from file", type="primary"):
+            # Reset the rules_map to empty structure
+            empty_rules = {
+                "zips": {},
+                "cities": {},
+                "states": {},
+                "national_default": {}
+            }
+            if save_rules(empty_rules):
+                load_rules.clear()  # Also clear the cache
+                st.success("All recycling rules cleared from file!")
+                st.rerun()
     
     # Admin scope selection
     admin_scope = st.radio("Edit rules for:", ["ZIP codes", "Cities", "States", "National defaults"], horizontal=True)
@@ -389,8 +458,18 @@ if uploaded:
             if not validate_zip(zip_code):
                 st.error(f"'{zip_code}' is not a valid US ZIP code. Please enter a valid 5-digit ZIP code.")
             else:
-                # Get recycling rules using tiered lookup
-                local_rules, source = get_recycling_rules(zip_code, rules_map)
+                # Get recycling rules - will auto-fetch if not in cache
+                with st.spinner(f"Looking up recycling rules for ZIP {zip_code}..."):
+                    local_rules, source, was_fetched = get_recycling_rules(zip_code, rules_map, auto_fetch=True)
+                
+                # If rules were newly fetched, save them to the file
+                if was_fetched:
+                    if "zips" not in rules_map:
+                        rules_map["zips"] = {}
+                    rules_map["zips"][zip_code] = local_rules
+                    if save_rules(rules_map):
+                        load_rules.clear()  # Clear cache so it reloads with new data
+                        st.success(f"✅ Fetched and saved new rules for ZIP {zip_code}")
                 
                 st.subheader("♻️ Local Recycling Instructions")
                 
@@ -430,17 +509,17 @@ if uploaded:
                     else:
                         st.write("No rules available.")
                 
-                # If using national defaults, offer to cache local rules
-                if source == "national default" or "earth911_link" in local_rules:
-                    if st.button(f"💾 Cache rules for ZIP {zip_code}", key=f"cache_{zip_code}"):
-                        with st.spinner(f"Generating lookup information for {zip_code}..."):
-                            fetched_rules = fetch_and_save_recycling_rules(zip_code, rules_map)
-                            if "zips" not in rules_map:
-                                rules_map["zips"] = {}
-                            rules_map["zips"][zip_code] = fetched_rules
-                            if save_rules(rules_map):
-                                st.success(f"Cached lookup information for {zip_code}!")
-                                st.rerun()
+                # Option to manually refresh rules if needed
+                if st.button(f"🔄 Refresh rules for ZIP {zip_code}", key=f"refresh_{zip_code}"):
+                    with st.spinner(f"Fetching updated recycling rules for ZIP {zip_code}..."):
+                        fetched_rules = fetch_and_save_recycling_rules(zip_code, rules_map)
+                        if "zips" not in rules_map:
+                            rules_map["zips"] = {}
+                        rules_map["zips"][zip_code] = fetched_rules
+                        if save_rules(rules_map):
+                            load_rules.clear()  # Clear cache
+                            st.success(f"✅ Refreshed rules for {zip_code}!")
+                            st.rerun()
     else:
         st.info("No common recyclable items detected using the default COCO classes.")
 

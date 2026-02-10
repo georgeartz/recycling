@@ -5,3 +5,4 @@ Pillow
 numpy
 requests
 uszipcode<1.0.0
+openai
