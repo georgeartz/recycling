@@ -8,6 +8,24 @@
       "vase": "Do NOT put glass vases in curbside recycling. Put in trash (or donate/reuse).",
       "default": "Use the blue cart for accepted paper/cardboard, metal cans, and eligible bottles/jars only. Keep materials clean and dry; no bagged recyclables; do not include ceramics, Pyrex, drinking glasses, or other non-container glass. Use green cart for food scraps/yard trimmings if provided, and black/gray cart for landfill items.",
       "_fetched_at": 1770733730
+    },
+    "90039": {
+      "company": "Los Angeles Sanitation & Environment (LASAN) \u2014 Residential Refuse Collection (City of Los Angeles)",
+      "bottle": "Recycle in the BLUE bin if empty and dry (plastic bottles and glass bottles/jars). Put caps/lids back on plastic bottles when possible; do not bag recyclables.",
+      "cup": "Disposable cups: If plastic (#1\u2013#7) and empty/clean/dry, place in the BLUE bin. Paper cups (including hot/coffee cups) are generally NOT accepted in curbside recycling due to plastic lining\u2014place in the BLACK bin unless specifically labeled and accepted by a separate program.",
+      "wine glass": "Do NOT place in the BLUE bin. Wine glasses (drinking glass/tempered glass) are not accepted with container glass\u2014wrap and place in the BLACK bin (trash) to prevent contamination and injury.",
+      "vase": "Do NOT place in the BLUE bin if it is a decorative glass vase (non-container glass). Place in the BLACK bin (trash) or reuse/donate if in good condition.",
+      "default": "For ZIP 90039 (City of Los Angeles): Use the BLUE bin for empty, clean, dry bottles/jars and other accepted recyclables (mixed paper/cardboard, metal cans/foil, rigid plastics). Keep items loose (no bags), and keep food/liquid out. Non-container glass (drinkware, vases, ceramics) goes in the BLACK bin (trash). GREEN bin is for yard trimmings/organics where provided.",
+      "_fetched_at": 1794757170
+    },
+    "93923": {
+      "company": "Carmel Area Wastewater District / Monterey Peninsula Waste Management District (MPWMD) \u2014 serviced by Monterey Disposal Service (WM)",
+      "bottle": "Recycle empty plastic bottles and glass bottles in the curbside recycling cart (place loose, not bagged). Rinse/empty; keep caps on plastic bottles; remove non-bottle pumps/sprayers.",
+      "cup": "Disposable cups: Plastic cups generally go in the recycling cart only if accepted as rigid plastic by the local program; otherwise place in trash. Paper cups (coffee cups) are typically NOT recyclable due to plastic lining\u2014put in trash unless specifically accepted by the local hauler. When in doubt for Carmel/Monterey Peninsula programs, trash paper coffee cups and most single-use plastic cups.",
+      "wine glass": "Do NOT put wine glasses in curbside recycling. Put in trash (or take to a specialty facility if available).",
+      "vase": "Do NOT put glass vases in curbside recycling. Put in trash or donate/reuse if in good condition.",
+      "default": "Carmel (93923) curbside recycling typically accepts common containers like bottles, jars, cans, clean paper and cardboard. Do not include ceramics, drinking glasses, window glass, mirrors, vases, or Pyrex; keep recyclables empty/clean and loose (no bagged recyclables). When uncertain, favor trash to avoid contaminating the recycling stream.",
+      "_fetched_at": 1794759453
     }
   },
   "cities": {},
