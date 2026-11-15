@@ -11,4 +11,8 @@ uszipcode==0.2.6
 SQLAlchemy==2.0.46
 pathlib-mate==1.3.2
 attrs==25.4.0
+# uszipcode's search module does `from six import ...` but does not
+# declare six as a dependency; it must be installed explicitly or the
+# import is silently swallowed and SearchEngine never gets defined.
+six==1.17.0
 openai
